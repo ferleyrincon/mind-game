@@ -1,0 +1,29 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Guessing Participant B’s choice
+{% endblock %}
+
+{% block content %}
+
+<style>
+    .otree-timer {
+        display: none;
+    }
+</style>
+
+<script>
+    $(function () {
+        $('.otree-timer__time-left').on('update.countdown', function (event) {
+            if (event.offset.totalSeconds === 60) {
+                $('.otree-timer').show();
+            }
+        });
+    });
+</script>
+
+{% formfields %}
+
+{% next_button %}
+{% endblock %}

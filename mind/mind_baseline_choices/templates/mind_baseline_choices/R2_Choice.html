@@ -1,0 +1,49 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block content %}
+
+<style>
+    .otree-timer {
+        display: none;
+    }
+</style>
+
+<script>
+    $(function () {
+        $('.otree-timer__time-left').on('update.countdown', function (event) {
+            if (event.offset.totalSeconds === 60) {
+                $('.otree-timer').show();
+            }
+        });
+    });
+</script>
+
+<div class="card border-dark mb-3">
+    <div class="card-header">
+    <h5>Participant A's report</h5>
+  </div>
+  <div class="card-body">
+Participant A was asked whether the color she/he picked is the color she/he thought of.
+Participant A reported: "<b>{{group.get_report1_display}}</b>".
+</p>
+  </div>
+</div>
+
+<p>
+   We now ask you to report whether the color you chose was the same as the color you drew.
+</p>
+<p>
+If the color you drew is the color you picked in your head earlier, mark “Yes” at the bottom of the form.
+If the color you drew is not the color you thought of, mark “No” at the bottom of the form.
+</p>
+
+{% formfield group.report2%}
+
+{% next_button %}
+
+{% endblock %}

@@ -1,0 +1,87 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+You are Participant A.
+{% endblock %}
+
+{% block content %}
+
+<style>
+ .callout {
+  padding: 20px;
+  margin: 20px 0;
+  border: 1px solid #eee;
+  border-left-width: 5px;
+  border-radius: 3px;
+  h4 {
+    margin-top: 0;
+    margin-bottom: 5px;
+  }
+  p:last-child {
+    margin-bottom: 0;
+  }
+  code {
+    border-radius: 3px;
+  }
+  & + .bs-callout {
+    margin-top: -5px;
+  }
+}
+@each $name,$color in (default,#777),(primary,#428bca),(success,#5cb85c),(danger,#d9534f),(warning,#f0ad4e),(info,#5bc0de), (bdc,#29527a) {
+  .callout-#{$name} {
+    border-left-color: $color;
+    h4 {
+      color: $color;
+    }
+  }
+}
+</style>
+
+
+<p>
+Please choose in your head one from the five cards below.
+</p>
+<div class="callout callout-primary">
+    It is important that you remember your color for the rest of the game.
+</div>
+<!-- CSS Part Start -->
+<style>
+
+    .otree-timer {
+        display: none;
+    }
+	img
+	{
+		width: 180px;}
+</style>
+
+<!-- For otree timer-->
+ <script>
+    $(function () {
+        $('.otree-timer__time-left').on('update.countdown', function (event) {
+            if (event.offset.totalSeconds === 60) {
+                $('.otree-timer').show();
+            }
+        });
+    });
+</script>
+
+<!-- CSS Part End -->
+
+<html>
+        <div class="column">
+            <img id="card1" class="imageQues" src="https://raw.githubusercontent.com/danielfParra/images/master/blackcard.jpg">
+            <img id="card2" class="imageQues" src="https://raw.githubusercontent.com/danielfParra/images/master/orangecard.jpg">
+            <img id="card3" class="imageQues" src="https://raw.githubusercontent.com/danielfParra/images/master/blueskycard.jpg">
+            <img id="card4" class="imageQues" src="https://raw.githubusercontent.com/danielfParra/images/master/yellowcard.jpg">
+            <img id="card5" class="imageQues" src="https://raw.githubusercontent.com/danielfParra/images/master/greencard.jpg">
+        </div>
+<p>
+Once you have mentally chosen your card, you can click on "Next" to continue.
+</p>
+
+</html>
+
+{% next_button %}
+{% endblock %}

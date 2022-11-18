@@ -1,0 +1,222 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block content %}
+<p>
+Please pick one card by clicking on it.
+</p>
+
+<!-- I have added CSS and JavaScript Part Notes. Rest of the all code is of HTML Part -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+
+
+<!-- CSS Part Start -->
+<style>
+
+    .otree-timer {
+        display: none;
+    }
+
+    body
+	{
+        margin: 0;
+        font-family: Verdana, Geneva, sans-serif;
+    }
+	.header
+	{
+        text-align: center;
+        padding: 32px;
+    }
+	img
+	{
+		width: 180px;
+	}
+	#showall
+	{
+		cursor: pointer;
+		background-color: #882D00;
+		color:#fff;
+		font-size: 16px;
+		border-radius: 8px;
+		text-align: center;
+		padding: 10px;
+		width: 110px;
+		display: none;
+	}
+
+ .callout {
+  padding: 20px;
+  margin: 20px 0;
+  border: 1px solid #eee;
+  border-left-width: 5px;
+  border-radius: 3px;
+  h4 {
+    margin-top: 0;
+    margin-bottom: 5px;
+  }
+  p:last-child {
+    margin-bottom: 0;
+  }
+  code {
+    border-radius: 3px;
+  }
+  & + .bs-callout {
+    margin-top: -5px;
+  }
+}
+@each $name,$color in (default,#777),(primary,#428bca),(success,#5cb85c),(danger,#d9534f),(warning,#f0ad4e),(info,#5bc0de), (bdc,#29527a) {
+  .callout-#{$name} {
+    border-left-color: $color;
+    h4 {
+      color: $color;
+    }
+  }
+}
+
+</style>
+
+<!-- For otree timer-->
+ <script>
+    $(function () {
+        $('.otree-timer__time-left').on('update.countdown', function (event) {
+            if (event.offset.totalSeconds === 60) {
+                $('.otree-timer').show();
+            }
+        });
+    });
+</script>
+
+<!-- CSS Part End -->
+</head>
+
+<body>
+	<div class="row" align="center">
+        <div class="column">
+            <img id="card1" class="imageQues" onclick="checkCard(this.id)" src="https://raw.githubusercontent.com/danielfParra/images/master/question.png">
+            <img id="card2" class="imageQues" onclick="checkCard(this.id)" src="https://raw.githubusercontent.com/danielfParra/images/master/question.png">
+            <img id="card3" class="imageQues" onclick="checkCard(this.id)" src="https://raw.githubusercontent.com/danielfParra/images/master/question.png">
+            <img id="card4" class="imageQues" onclick="checkCard(this.id)" src="https://raw.githubusercontent.com/danielfParra/images/master/question.png">
+            <img id="card5" class="imageQues" onclick="checkCard(this.id)" src="https://raw.githubusercontent.com/danielfParra/images/master/question.png">
+        </div>
+        <div class="column">
+            <img id="card6" class="imageQues" onclick="checkCard(this.id)" src="https://raw.githubusercontent.com/danielfParra/images/master/question.png">
+            <img id="card7" class="imageQues" onclick="checkCard(this.id)" src="https://raw.githubusercontent.com/danielfParra/images/master/question.png">
+            <img id="card8" class="imageQues" onclick="checkCard(this.id)" src="https://raw.githubusercontent.com/danielfParra/images/master/question.png">
+            <img id="card9" class="imageQues" onclick="checkCard(this.id)" src="https://raw.githubusercontent.com/danielfParra/images/master/question.png">
+            <img id="card10" class="imageQues" onclick="checkCard(this.id)" src="https://raw.githubusercontent.com/danielfParra/images/master/question.png">
+        </div align="center">
+        <h1 id="showall" onclick="showAll()">Show All</h1>
+    </div>
+
+<input type="hidden" name="randomDraw2" id="id_randomDraw2"/>
+
+
+    <!-- JavaScript Part Start -->
+    <script>
+	// Variable randomdraw
+	var  randomDraw;
+	// First Clicked Card
+	var firstCardImage = "";
+	// First Clicked Card ID
+	var firstCardId = "";
+	// Total Cards IDs Array
+	var cardIds = ["card1","card2","card3","card4","card5","card6","card7","card8","card9","card10"];
+	// Total Cards Images Array
+	var cardImages = ["blackcard","orangecard","blueskycard", "greencard", "yellowcard","blackcard","orangecard","blueskycard", "greencard", "yellowcard"];
+	// While the array length is Total Cards IDs
+	while(cardIds.length)
+	{
+		// Generate one random Card ID from the array - cardIds
+		var randomCardId = cardIds.splice(cardIds.length * Math.random() | 0, 1)[0];
+
+		// Generate one random Card Image from the array - cardImages
+		var randomCardImage = cardImages.splice(cardImages.length * Math.random() | 0, 1)[0];
+
+		// Set the class name of each card image with the generated random card image name
+		document.getElementById(randomCardId).className = randomCardImage + " imageQues";
+	}
+
+	// When you click on the card, this function will be executed
+	function checkCard(clickedCardId) {
+		// Set firstCard with the generated random image name
+		firstCardImage = document.getElementById(clickedCardId).className.split(" ")[0]+".jpg";
+		// Check if first Card Image is Orange Card image, then randomDraw is set to 1
+		if(firstCardImage == "blackcard.jpg")
+			 randomDraw = 1;
+		else if (firstCardImage == "orangecard.jpg")
+			 randomDraw = 2;
+        else if (firstCardImage == "blueskycard.jpg")
+             randomDraw = 3;
+        else if (firstCardImage == "greencard.jpg")
+             randomDraw = 4;
+        else
+             randomDraw = 5;
+
+		// To load the randomDraw in oTree database
+
+        var data = document.getElementById("id_randomDraw2");
+        data.value = randomDraw;
+
+        randomDraw.oninput = function() {
+        data.value = this.value;
+        }
+
+        // To check that randomDraw variable is created checking javascript console
+		console.log(randomDraw)
+
+		// Set firstCardId with the clicked card id
+		firstCardId = clickedCardId;
+
+		// Change the image from question image to the random generated card image
+		document.getElementById(clickedCardId).src = 'https://raw.githubusercontent.com/danielfParra/images/master/'+document.getElementById(clickedCardId).className.split(" ")[0]+".jpg";
+
+		// Count total card images with the class name - imageQues
+		var totalCardImages = document.getElementsByClassName("imageQues");
+
+		// Count the total length of the card image and disable the click event on it
+		for(var t = 0; t < totalCardImages.length; t++)
+			// Set the onclick attribute to FALSE on all the card images, so you can not click on any images
+			totalCardImages[t].setAttribute("onclick","false");
+		// Make visible the SHOW ALL button - that can show you all the other images which are hidden yet
+		document.getElementById("showall").style.display = "block";
+	}
+
+	// When you click on - Show All button, this function will be executed
+	function showAll()
+	{
+		// Count total card images with the class name - imageQues
+		var totalCardImages = document.getElementsByClassName("imageQues");
+		// Till the total length of card images, show all the original card images with the question image
+		for(var t = 0; t < totalCardImages.length; t++)
+			// Display the original card image and replace the question image here
+			totalCardImages[t].src = 'https://raw.githubusercontent.com/danielfParra/images/master/'+document.getElementById(totalCardImages[t].id).className.split(" ")[0]+".jpg";
+		// Make disable the button Show All, so you can not click on it again
+		document.getElementById("showall").disabled = true;
+	}
+
+	</script>
+
+    <!-- JavaScript Part End -->
+{{ form.randomDraw2.errors }}
+</body>
+<div class="callout callout-primary">
+Once you have picked a card and seen the color behind it,
+    you can click on the button "Show all" if you want to see
+    what color was behind each card. You don’t have to do so;
+    it is only a tool to show you how the cards were distributed.
+
+</div>
+
+</html>
+
+
+{% next_button %}
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block content %}
+
+
+<style>
+    .otree-timer {
+        display: none;
+    }
+</style>
+
+<script>
+    $(function () {
+        $('.otree-timer__time-left').on('update.countdown', function (event) {
+            if (event.offset.totalSeconds === 60) {
+                $('.otree-timer').show();
+            }
+        });
+    });
+</script>
+
+
+<p>
+    We now ask you to report whether the color you chose
+    in the first stage was the same as the color you drew in the second stage.
+</p>
+<p>
+    If the color you drew is the color you picked in your head earlier,
+    mark “Yes” at the bottom of the form. If the color you drew is not the color
+    you picked in your head earlier, mark “No” at the bottom of the form.
+</p>
+<p>
+    Participant B will receive a message with your report.
+</p>
+<p>
+    Participant B will be informed about your report
+    before reporting whether the color she/he drew is
+    the color she/he picked in their head before.
+</p>
+
+
+{% formfields %}
+
+
+    {% next_button %}
+
+{% endblock %}

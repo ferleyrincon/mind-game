@@ -1,0 +1,164 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+ Guessing Participant B's report.
+{% endblock %}
+
+{% block content %}
+
+<style>
+    .otree-timer {
+        display: none;
+    }
+
+
+ .callout {
+  padding: 20px;
+  margin: 20px 0;
+  border: 1px solid #eee;
+  border-left-width: 5px;
+  border-radius: 3px;
+  h4 {
+    margin-top: 0;
+    margin-bottom: 5px;
+  }
+  p:last-child {
+    margin-bottom: 0;
+  }
+  code {
+    border-radius: 3px;
+  }
+  & + .bs-callout {
+    margin-top: -5px;
+  }
+}
+@each $name,$color in (default,#777),(primary,#428bca),(success,#5cb85c),(danger,#d9534f),(warning,#f0ad4e),(info,#5bc0de), (bdc,#29527a) {
+  .callout-#{$name} {
+    border-left-color: $color;
+    h4 {
+      color: $color;
+    }
+  }
+}
+</style>
+
+<script>
+    $(function () {
+        $('.otree-timer__time-left').on('update.countdown', function (event) {
+            if (event.offset.totalSeconds === 60) {
+                $('.otree-timer').show();
+            }
+        });
+    });
+</script>
+
+<p>
+Participant B in your group has already picked a card and is now reporting. In the meantime,
+    we want to know what you think she or he will report and how confident you are of your guess.
+</p>
+<p>
+    You can earn {{Constants.beliefs_payoff }} by guessing correctly.
+    A robot may help you to increase your chances of earning this additional money.
+    The robot will only help you from the point where you are not sure.
+    In particular, you only need to select whether you think the other participant
+    will report “Yes” or “No”, and how likely you think your guess is to be correct
+    (i.e. if you believe there’s a 75% chance your guess is correct, you should write down 75).
+</p>
+<p>
+    The robot’s selection is based in an algorithm, so you only have to tell us your guess and the chance
+    it is correct. You don’t need to know how exactly the robot’s algorithm works to continue with the experiment.
+    However, if you want to find out how it works, click on "more information". If not click directly on "Next”.
+</p>
+
+<!-- Button trigger modal -->
+
+<button type="button" name="more_info" class="btn btn-warning" data-toggle="modal" data-target="#moreinfo">
+  More information
+</button>
+<input type="hidden" name="times_clicked_info" value=0>
+
+<!-- Modal -->
+<div class="modal fade" id="moreinfo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">How do the robots work?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p> We have 100 different robots; each has a different level of accuracy.
+            Each robot has an accuracy corresponding to an integer between 1 and 100.
+            That is, there is a robot that is accurate 1% of the time, a robot that is accurate 2% of the time,
+            a robot that is accurate 3% of the time, ... , all the way up to a robot that is accurate 100% of the
+            time. A robot that is accurate 75% of the time correctly guesses the other participant’s report
+            75% of the time and guess wrongly 25% of the time.
+            </p>
+            <p> By reporting how confident you are with your guess, you decide which robots
+                you would allow to guess for you.
+            </p>
+            <p>
+                Here's how it will work.
+            </p>
+            <p>
+                First, you will select whether you think Participant B will report "Yes" or "No".
+                Then, you will decide how confident you are in this guess.
+                You will do this by choosing an accuracy threshold (a number between 1 and 100) for your answer.
+                For any robot that has accuracy greater than or equal to your threshold,
+                you would prefer to have the robot answering instead of submitting your guess.
+                For any robot that has an accuracy lower than your threshold,
+                you would prefer to submit your guess instead of letting the robot answer.
+            </p>
+            <p>
+                Then, the computer will randomly select a robot.
+                Each robot is equally likely to be chosen.
+                If the robot has an accuracy greater than or equal to your threshold,
+                the robot will guess the other participant’s report for you.
+                If the robot has an accuracy less than your threshold,
+                your guess will be submitted and you will receive {{Constants.beliefs_payoff }}
+                additional based upon that guess.
+            </p>
+            <p>
+                For example, if you chose 75% as your accuracy threshold,
+                and the randomly selected robot had an accuracy of 90%, this robot would answer for you.
+                The robot would have a 90% chance of guessing Participant B’s report correctly.
+                If you chose 75% as your accuracy threshold, and the robot randomly selected had an
+                accuracy of 20%, your answer would be submitted instead of the robot's.
+            </p>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p>
+
+</p>
+    {% next_button %}
+
+
+<!-- Capture whether the button was clicked -->
+
+<script>
+// get button and the hidden input elements
+let button = document.querySelector('[name=more_info');
+let hidden_input = document.querySelector('[name=times_clicked_info');
+
+// add +1 to the hidden input value when button is clicked
+button.onclick = function(){
+hidden_input.value = parseInt(hidden_input.value) + 1;
+ };
+</script>
+
+
+
+{% endblock %}
+
+
+
+
